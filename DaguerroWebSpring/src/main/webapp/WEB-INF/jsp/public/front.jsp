@@ -27,6 +27,8 @@
 
 <!--  Uso de taglib -->
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+
 </head>
 
 <body>
@@ -34,9 +36,11 @@
 	<!-- Incluyo la barra de navegación -->
 	<%@include file="navigation_iframe.jsp"%>
 
-	<!-- Incluyo la página indicada por el modelo -->
-	<div class="container">
-		<iframe name="main" src="public/home"></iframe>
+	<!-- Incluyo la página principal -->
+	<div class="container">	
+		<!-- Comprobamos si estamos logados -->
+		<sec:authorize var="anonimo" access="isAnonymous()" ></sec:authorize>
+		<iframe id="main" name="main" src="${anonimo?'/public/home':'/user/welcome'}"></iframe>
 	</div>
 
 

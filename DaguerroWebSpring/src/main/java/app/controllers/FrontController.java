@@ -16,7 +16,7 @@ public class FrontController {
 	@GetMapping("/")
 	public String getFront(Map<String, Object> model) {
 		
-		return "front";
+		return "redirect:public/front";
 	}
 	
 	// Peticiones de documentos publicos
