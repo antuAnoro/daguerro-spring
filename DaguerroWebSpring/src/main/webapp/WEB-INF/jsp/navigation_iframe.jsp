@@ -1,3 +1,5 @@
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+
 <nav class="navbar navbar-default navbar-fixed-top">
 	<div class="container-fluid">
 		<div class="navbar-header">
@@ -11,12 +13,10 @@
 			<li><a href="http://www.marca.com" target="main">Marca</a></li>
 		</ul>
 		<ul class="nav navbar-nav navbar-right">
-			<c:if test="${user_rol == 'admin'}">
-   				<li><a href="#"><span class="glyphicon glyphicon-user"></span>
-					Sign Up</a></li>
-			</c:if>			
-			<li><a href="public/login" target="main"><span class="glyphicon glyphicon-log-in"></span>
-					Login</a></li>
+			<sec:authorize access="hasRole('ADMIN')">				
+   				<li><a href="#"><span class="glyphicon glyphicon-user"></span>Gestionar usuarios</a></li>
+			</sec:authorize>			
+			<li><a href="public/login" target="main"><span class="glyphicon glyphicon-log-in"></span>Login</a></li>
 		</ul>
 	</div>
 </nav>

@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -45,7 +46,10 @@ public class ApplicationSecurityAdapter extends WebSecurityConfigurerAdapter {
 	        	.key(applicationSecret)
 	            .tokenValiditySeconds(31536000)
         		.and()
-        	.csrf().disable();
+        	.csrf().disable()
+        	// Permito usar frames si mismo origen
+       		.headers().frameOptions().sameOrigin();
+        	
         
     	/*http
 	    	.csrf().disable()
@@ -63,4 +67,6 @@ public class ApplicationSecurityAdapter extends WebSecurityConfigurerAdapter {
     	// Introducimos el servicio del que consultar el resto de usuarios
         auth.userDetailsService(userService).passwordEncoder(new BCryptPasswordEncoder());
     }
+
+    
 }
