@@ -22,6 +22,8 @@ public class UserController {
 		return "user/"+ ruta;
 	}
 	
+	//TODO Añadir tratamiento para welcome, necesitamos validar el login
+	
     @RequestMapping("/activate")
     public String activate(String activation) {
         User u = userService.activate(activation);

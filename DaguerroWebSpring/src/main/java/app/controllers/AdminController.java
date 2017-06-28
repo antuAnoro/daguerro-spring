@@ -50,8 +50,8 @@ public class AdminController {
 	
 	@PostMapping("/registrarUsuario")
 	public String doRegistrarUsuario(@Valid @ModelAttribute("userForm") User usuario, BindingResult result, Model model) {
-		// Primero debemos validar las entradas del formulario
-		if (result.hasErrors()) {
+		// Primero debemos validar las entradas del formulario. Asumimos los errores de username y password, ya que en el registro no se pasan.
+		if (result.getErrorCount()>2) {
 			return "admin/altaUsuario";
 		}
 		
@@ -77,5 +77,12 @@ public class AdminController {
 		
 	}
 	
-
+	@GetMapping("/bajaUsuario")
+	public String doBajaUsuario(Long id) {
+		// Creamos un objeto para el formulario de alta
+		userService.delete(id);
+		
+		// Si todo va bien, me vuelvo a la lista
+		return "redirect:/admin/gestionUsuarios";
+	}
 }

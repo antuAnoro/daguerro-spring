@@ -19,10 +19,6 @@ public class User {
     
     // Esto lo inserta el administrador al dar de alta el usuario. Debe validarse. Arriba van anotaciones para JPA, abajo para validar.
     @NotNull
-    @Size(min = 3, max = 100, message = "El nombre de usuario debe tener un mínimo de 3 caracteres.")
-    private String userName;
-    
-    @NotNull
     @NotEmpty
     @Email(message = "No es una dirección de email válida.")
     private String email;
@@ -39,7 +35,11 @@ public class User {
     @NotEmpty
     private String address;
     
-    // Este password de primeras se genera aleatoriamente, cuando el usuario lo cambie hay que validarlo.
+    // Estos datos corresponden al login del usuario.
+    @NotNull
+    @Size(min = 3, max = 100, message = "El nombre de usuario debe tener un mínimo de 3 caracteres.")
+    private String userName;
+    
     @NotNull
     @Size(min = 3, max = 100, message = "El password debe tener un mínimo de 3 caracteres.")
     private String password;
@@ -49,6 +49,8 @@ public class User {
 
     // Y finalmente estas son propiedades relacionadas con la autenticación
     private String token;
+    
+    private String passwordChanged = "NO";
     
     private String role = "ROLE_USER";
     
@@ -95,7 +97,15 @@ public class User {
         this.token = token;
     }
 
-    public String getEmail() {
+    public String getPasswordChanged() {
+		return passwordChanged;
+	}
+
+	public void setPasswordChanged(String passwordChanged) {
+		this.passwordChanged = passwordChanged;
+	}
+
+	public String getEmail() {
         return email;
     }
 

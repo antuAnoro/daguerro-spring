@@ -51,6 +51,7 @@
 							<td>${usuario.email}</td>
 							<td>${usuario.firstName}</td>
 							<td>${usuario.lastName}</td>
+							<td><a href="bajaUsuario?id=${usuario.id}">Eliminar</a></td>
 						</tr>
 					</c:forEach>
 				</tbody>
