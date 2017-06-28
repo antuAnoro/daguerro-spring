@@ -69,11 +69,18 @@ public class UserService implements UserDetailsService {
     }
 
     public User register(User user) {
-        user.setPassword(encodeUserPassword(user.getPassword()));
-
-        if (this.repo.findOneByUserName(user.getUserName()) == null && this.repo.findOneByEmail(user.getEmail()) == null) {
+    	
+        if (this.repo.findOneByEmail(user.getEmail()) == null) {
+        	// Lo que si generamos es el username a partir del mail
+        	user.setUserName(user.getEmail().split("@")[0]);
+        	
+        	// Establecemos un password por defecto
+        	user.setPassword("CHANGE_ME");
+        	
+        	// También le creamos token de activación
             String activation = createActivationToken(user, false);
             user.setToken(activation);
+            
             this.repo.save(user);
             return user;
         }
@@ -155,8 +162,7 @@ public class UserService implements UserDetailsService {
                 newData.getEmail(), 
                 newData.getFirstName(), 
                 newData.getLastName(), 
-                newData.getAddress(), 
-                newData.getCompanyName());
+                newData.getAddress());
     }
     
     public User getLoggedInUser() {
@@ -176,8 +182,5 @@ public class UserService implements UserDetailsService {
     public void updateLastLogin(String userName) {
         this.repo.updateLastLogin(userName);
     }
-
-    public void updateProfilePicture(User user, String profilePicture) {
-        this.repo.updateProfilePicture(user.getUserName(), profilePicture);
-    }
+    
 }

@@ -18,7 +18,7 @@
 			<!-- Acceso autorizado -->
 			<sec:authorize access="isAuthenticated()">
 				<sec:authorize access="hasRole('ADMIN')">		
-					<li><a href="#"><span class="glyphicon glyphicon-user"></span>Gestionar usuarios</a></li>
+					<li><a href="/admin/gestionUsuarios" target="main"><span class="glyphicon glyphicon-user"></span>Gestionar usuarios</a></li>
 				</sec:authorize>
 				<li><a href="/user/logout" target="main"><span class="glyphicon glyphicon-log-out"></span>Logout</a></li>				
 			</sec:authorize>

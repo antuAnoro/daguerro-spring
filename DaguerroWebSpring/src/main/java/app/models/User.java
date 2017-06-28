@@ -8,43 +8,52 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 public class User {
+	// Este identificador se añade durante el registro
     @GeneratedValue
     @Id
     private Long id;
     
+    // Esto lo inserta el administrador al dar de alta el usuario. Debe validarse. Arriba van anotaciones para JPA, abajo para validar.
     @NotNull
     @Size(min = 3, max = 100, message = "El nombre de usuario debe tener un mínimo de 3 caracteres.")
     private String userName;
     
     @NotNull
+    @NotEmpty
+    @Email(message = "No es una dirección de email válida.")
+    private String email;
+    
+    @NotNull
+    @NotEmpty
+    private String firstName;
+    
+    @NotNull
+    @NotEmpty
+    private String lastName;
+    
+    @NotNull
+    @NotEmpty
+    private String address;
+    
+    // Este password de primeras se genera aleatoriamente, cuando el usuario lo cambie hay que validarlo.
+    @NotNull
     @Size(min = 3, max = 100, message = "El password debe tener un mínimo de 3 caracteres.")
     private String password;
     
     @Transient
-    private String confirmPassword;
-    
-    @Email(message = "No es una dirección de email válida.")
-    @NotNull
-    private String email;
-    
+    private String confirmPassword;    
+
+    // Y finalmente estas son propiedades relacionadas con la autenticación
     private String token;
     
     private String role = "ROLE_USER";
     
-    private String firstName;
-    
-    private String lastName;
-    
-    private String address;
-    
-    private String companyName;
-    
     private String lastLogin;
     
-    private String profilePicture;
     
     public Long getId() {
         return id;
@@ -126,14 +135,6 @@ public class User {
         this.address = address;
     }
 
-    public String getCompanyName() {
-        return companyName;
-    }
-
-    public void setCompanyName(String companyName) {
-        this.companyName = companyName;
-    }
-
     public String getLastLogin() {
         return lastLogin;
     }
@@ -142,14 +143,6 @@ public class User {
         this.lastLogin = lastLogin;
     }
     
-    public String getProfilePicture() {
-        return profilePicture;
-    }
-
-    public void setProfilePicture(String profilePicture) {
-        this.profilePicture = profilePicture;
-    }
-
     public Boolean isAdmin() {
         return this.role.equals("ROLE_ADMIN");
     }

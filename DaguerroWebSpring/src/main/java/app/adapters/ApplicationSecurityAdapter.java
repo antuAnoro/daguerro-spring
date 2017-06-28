@@ -30,7 +30,8 @@ public class ApplicationSecurityAdapter extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
 	        .authorizeRequests()
-		        .antMatchers("/","/public/**","/css/**","/js/**").permitAll()
+		        .antMatchers("/","/public/**","user/activate","/css/**","/js/**").permitAll()
+		        .antMatchers("/admin/**").hasRole("ADMIN")
 		        .anyRequest().authenticated()
 		        .and()
 	        .formLogin()
@@ -49,21 +50,13 @@ public class ApplicationSecurityAdapter extends WebSecurityConfigurerAdapter {
         	.csrf().disable()
         	// Permito usar frames si mismo origen
        		.headers().frameOptions().sameOrigin();
-        	
-        
-    	/*http
-	    	.csrf().disable()
-	        .authorizeRequests()
-		        .anyRequest().authenticated()
-		        .and()
-		        .httpBasic();*/
-    	
     }
     
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
     	// Meto un usuario administrador a pincho
-    	auth.inMemoryAuthentication().withUser("manteca").password("pass1").roles("ADMIN");
+    	auth.inMemoryAuthentication().withUser("user").password("passUser").roles("USER");
+    	auth.inMemoryAuthentication().withUser("admin").password("passAdmin").roles("ADMIN");
     	// Introducimos el servicio del que consultar el resto de usuarios
         auth.userDetailsService(userService).passwordEncoder(new BCryptPasswordEncoder());
     }

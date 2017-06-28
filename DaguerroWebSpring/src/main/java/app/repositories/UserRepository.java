@@ -19,23 +19,17 @@ public interface UserRepository extends CrudRepository<User, Long> {
     @Modifying
     //@Transactional
     @Query("update User u set u.email = :email, u.firstName = :firstName, "
-            + "u.lastName = :lastName, u.address = :address, u.companyName = :companyName "
+            + "u.lastName = :lastName, u.address = :address "
             + "where u.userName = :userName")
     int updateUser(
             @Param("userName") String userName, 
             @Param("email") String email,
             @Param("firstName") String firstName,
             @Param("lastName") String lastName,
-            @Param("address") String address,
-            @Param("companyName") String companyName);
+            @Param("address") String address);
     
     @Modifying
     //@Transactional
     @Query("update User u set u.lastLogin = CURRENT_TIMESTAMP where u.userName = ?1")
     int updateLastLogin(String userName);
-    
-    @Modifying
-    //@Transactional
-    @Query("update User u set u.profilePicture = ?2 where u.userName = ?1")
-    int updateProfilePicture(String userName, String profilePicture);
 }

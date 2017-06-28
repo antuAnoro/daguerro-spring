@@ -10,13 +10,22 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-public class FrontController {
+public class PublicController {
 	
 	// Peticiones al front
 	@GetMapping("/")
 	public String getFront(Map<String, Object> model) {
 		
-		return "redirect:public/front";
+		return "public/front";
+	}
+	
+	// Mensajes de error públicos
+	@GetMapping("/error")
+	public String getError(@RequestParam("mensajeError") String mensajeError,Map<String, Object> model) {
+		
+		model.put("mensajeError", mensajeError);
+		
+		return "public/error";
 	}
 	
 	// Peticiones de documentos publicos
